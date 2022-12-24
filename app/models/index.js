@@ -5,7 +5,8 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.authors = require("./author.js")(sequelize, Sequelize);
+db.Author = require("./author.js")(sequelize, Sequelize);
+db.Book = require("./book.js")(sequelize, Sequelize);
 
 Object.keys(db).forEach((modelName) => {
   if (db.modelName.associate) {
