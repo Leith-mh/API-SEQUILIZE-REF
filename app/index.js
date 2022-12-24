@@ -12,8 +12,8 @@ app.use((req, res, next) => {
 
 app.use("/book", require("./routes/book"));
 
-try {
-  app.listen(process.env.PORT || 8085);
-} catch (err) {
-  console.error(err);
-}
+app.listen(process.env.PORT || 8085, (err) =>
+  err
+    ? console.error("Server connection error", err)
+    : console.log("Server is running")
+);
