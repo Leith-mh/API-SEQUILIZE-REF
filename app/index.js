@@ -17,6 +17,8 @@ app.use((req, res, next) => {
 });
 
 app.use("/books", require("./routes/book"));
+app.use("/authors", require("./routes/author"));
+
 sequelize.sync();
 
 // set port, listen for requests

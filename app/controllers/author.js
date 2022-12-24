@@ -1,13 +1,9 @@
 const db = require("../models");
-const Book = db.books;
-
-exports.health = (req, res) => {
-  return res.status(200).send("hello world");
-};
+const Author = db.authors;
 
 exports.getAll = async (req, res) => {
   try {
-    const books = await Book.findAll({ include: ["author"] });
+    const books = await Author.findAll({ include: ["books"] });
     return res.status(200).json(books);
   } catch (error) {
     return res.status(500).json(error);
@@ -16,7 +12,7 @@ exports.getAll = async (req, res) => {
 
 exports.getOne = async (req, res) => {
   try {
-    const book = await Book.findByPk(req.params.id, { include: ["author"] });
+    const book = await Author.findByPk(req.params.id, { include: ["books"] });
     return res.status(200).json(book);
   } catch (error) {
     return res.status(500).json(error);
@@ -25,15 +21,14 @@ exports.getOne = async (req, res) => {
 
 exports.createOne = async (req, res) => {
   try {
-    const BOOK_MODEL = {
-      title: req.body.title,
-      authorId: req.body.authorId,
-      isbn: req.body.isbn,
+    const AUTHOR_MODEL = {
+      fullName: req.body.fullName,
+      origins: req.body.origins,
     };
 
     try {
-      const book = await Book.create(BOOK_MODEL);
-      console.log("Book crerated");
+      const book = await Author.create(AUTHOR_MODEL);
+      console.log("Author crerated");
       return res.status(201).json(book);
     } catch (error) {
       return res.status(500).json(error);
@@ -45,14 +40,13 @@ exports.createOne = async (req, res) => {
 
 exports.updateOne = async (req, res) => {
   try {
-    const BOOK_MODEL = {
-      title: req.body.title,
-      authorId: req.body.authorId,
-      isbn: req.body.isbn,
+    const AUTHOR_MODEL = {
+      fullName: req.body.fullName,
+      origins: req.body.origins,
     };
 
     try {
-      const book = await Book.update(BOOK_MODEL, {
+      const book = await Author.update(AUTHOR_MODEL, {
         where: { id: req.params.id },
       });
       return res.status(200).json(book);
@@ -64,7 +58,7 @@ exports.updateOne = async (req, res) => {
 
 exports.deleteOne = async (req, res) => {
   try {
-    const book = await Book.destroy({ where: { id: req.params.id } });
+    const book = await Author.destroy({ where: { id: req.params.id } });
     return res.status(200).json(book);
   } catch (error) {
     return res.status(500).json(error);
