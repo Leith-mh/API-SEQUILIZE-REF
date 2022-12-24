@@ -4,7 +4,7 @@ EXPOSE 8085
 
 WORKDIR /src
 
-RUN nom install i npm@latest -g
+RUN npm install i npm@latest -g
 
 COPY package.json package-lock*.json ./
 

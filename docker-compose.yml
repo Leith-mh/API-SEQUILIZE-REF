@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  node_backend:
+    container_name: api_ref
+    image: api_ref:0.0.2
+    build: 
+      context: .
+    ports:
+      - "8085:8085"
+    environment:
+      - PORT=8085
+  
+  postgresql:
+    container_name: db
+    image: "postgres:12"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=leith
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=sequilize
+    volumes:
+      - pg_data:/var/lib/postgresql/pg_data
+
+volumes:
+   pg_data: {}
+
+  
