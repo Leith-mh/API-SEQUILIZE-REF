@@ -1,7 +1,8 @@
-const Book = require("../models/book");
+const db = require("../models");
+const Book = db.Book;
 
 exports.health = (req, res) => {
-  return res.status(200).json("hello world");
+  return res.status(200).send("hello world");
 };
 
 exports.getAll = async (req, res) => {

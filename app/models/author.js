@@ -1,31 +1,25 @@
 const Sequelize = require("sequelize");
 const db = require("../util/db");
+module.exports = (sequelize, DataTypes) => {
+  const Author = sequelize.define("authors", {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      allowNull: true,
+      primaryKey: true,
+    },
 
-const Book = db.define("books", {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    allowNull: true,
-    primaryKey: true,
-  },
+    fullName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
 
-  title: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    unique: true,
-  },
-
-  author: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    unique: false,
-  },
-
-  isbn: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    unique: true,
-  },
-});
-
-module.exports = Book;
+    origins: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+    },
+  });
+  return Author;
+};
