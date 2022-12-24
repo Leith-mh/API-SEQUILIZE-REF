@@ -1,8 +1,7 @@
-const sequelize = require("sequelize");
+const Sequelize = require("sequelize");
+const db = require("../util/db");
 
-const db = require("../utils/db");
-
-const User = db.define("books", {
+const Book = db.define("books", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -28,3 +27,5 @@ const User = db.define("books", {
     unique: true,
   },
 });
+
+module.exports = Book;
