@@ -1,5 +1,8 @@
 const express = require("express");
 
+const sequelize = require("./util/db");
+const Book = require("./models/book");
+
 const app = express();
 
 app.use(express.json());
@@ -10,10 +13,13 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET", "PUT", "POST", "DELETE");
 });
 
-app.use("/book", require("./routes/book"));
+app.use("/books", require("./routes/book"));
 
-app.listen(process.env.PORT || 8085, (err) =>
-  err
-    ? console.error("Server connection error", err)
-    : console.log("Server is running")
-);
+(async () => {
+  try {
+    await sequelize.sync({ force: false });
+    app.listen(process.env.EXTERNAL_PORT || 8085);
+  } catch (error) {
+    console.error(error);
+  }
+})();
