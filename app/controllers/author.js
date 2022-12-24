@@ -1,9 +1,15 @@
 const db = require("../models");
-const Author = db.authors;
+const Author = db.Author;
 
 exports.getAll = async (req, res) => {
   try {
-    const books = await Author.findAll({ include: ["books"] });
+    const books = await Author.findAll({
+      include: {
+        model: db.Book,
+        as: "books",
+        attributes: ["title"],
+      },
+    });
     return res.status(200).json(books);
   } catch (error) {
     return res.status(500).json(error);
@@ -12,7 +18,13 @@ exports.getAll = async (req, res) => {
 
 exports.getOne = async (req, res) => {
   try {
-    const book = await Author.findByPk(req.params.id, { include: ["books"] });
+    const book = await Author.findByPk(req.params.id, {
+      include: {
+        model: db.Book,
+        as: "books",
+        attributes: ["title"],
+      },
+    });
     return res.status(200).json(book);
   } catch (error) {
     return res.status(500).json(error);

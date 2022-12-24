@@ -1,5 +1,5 @@
 const db = require("../models");
-const Book = db.books;
+const Book = db.Book;
 
 exports.health = (req, res) => {
   return res.status(200).send("hello world");
@@ -7,7 +7,13 @@ exports.health = (req, res) => {
 
 exports.getAll = async (req, res) => {
   try {
-    const books = await Book.findAll({ include: ["author"] });
+    const books = await Book.findAll({
+      include: {
+        model: db.Author,
+        as: "author",
+        attributes: ["fullName", "origins"],
+      },
+    });
     return res.status(200).json(books);
   } catch (error) {
     return res.status(500).json(error);
@@ -16,7 +22,13 @@ exports.getAll = async (req, res) => {
 
 exports.getOne = async (req, res) => {
   try {
-    const book = await Book.findByPk(req.params.id, { include: ["author"] });
+    const book = await Book.findByPk(req.params.id, {
+      include: {
+        model: db.Author,
+        as: "author",
+        attributes: ["fullName", "origins"],
+      },
+    });
     return res.status(200).json(book);
   } catch (error) {
     return res.status(500).json(error);

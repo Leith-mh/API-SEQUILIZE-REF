@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const { books } = require(".");
 const db = require("../util/db");
 
 module.exports = (sequelize, DataTypes) => {
@@ -22,6 +23,8 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
     },
   });
-
+  Book.associate = (models) => {
+    Book.belongsTo(models.authors, { foreignKey: "authorId", as: "author" });
+  };
   return Book;
 };

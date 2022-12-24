@@ -8,10 +8,10 @@ db.sequelize = sequelize;
 db.authors = require("./author.js")(sequelize, Sequelize);
 db.books = require("./book.js")(sequelize, Sequelize);
 
-db.authors.hasMany(db.books, { as: "books" });
-db.books.belongsTo(db.authors, {
-  foreignKey: "authorId",
-  as: "author",
+Object.keys(db).forEach((modelName) => {
+  if (db.modelName.associate) {
+    db.modelName.associate(db);
+  }
 });
 
 module.exports = db;
