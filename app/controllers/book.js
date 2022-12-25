@@ -1,5 +1,5 @@
 const db = require("../models");
-const Book = db.Book;
+const Book = db.books;
 
 exports.health = (req, res) => {
   return res.status(200).send("hello world");
@@ -9,11 +9,30 @@ exports.getAll = async (req, res) => {
   try {
     const books = await Book.findAll({
       include: {
-        model: db.Author,
+        model: db.authors,
         as: "author",
         attributes: ["fullName", "origins"],
       },
+      include: {
+        model: db.tags,
+        as: "tags",
+        attributes: ["genre"],
+      },
     });
+    return res.status(200).json(books);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+exports.addTag = async (req, res) => {
+  try {
+    const BOOK_MODEL = {
+      bookId: req.body.bookId,
+      tagId: req.body.tagId,
+    };
+    const book = await Book.create(BOOK_MODEL);
+
     return res.status(200).json(books);
   } catch (error) {
     return res.status(500).json(error);
@@ -24,7 +43,7 @@ exports.getOne = async (req, res) => {
   try {
     const book = await Book.findByPk(req.params.id, {
       include: {
-        model: db.Author,
+        model: db.authors,
         as: "author",
         attributes: ["fullName", "origins"],
       },
@@ -34,7 +53,19 @@ exports.getOne = async (req, res) => {
     return res.status(500).json(error);
   }
 };
-
+exports.getOneByAuthor = async (req, rest) => {
+  try {
+    const book = await Book.findByPk(req.params.authorId, {
+      include: {
+        model: db.authors,
+        as: "author",
+        attributes: ["fullName", "origins"],
+      },
+    });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
 exports.createOne = async (req, res) => {
   try {
     const BOOK_MODEL = {

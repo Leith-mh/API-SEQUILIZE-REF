@@ -5,13 +5,26 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.Author = require("./author.js")(sequelize, Sequelize);
-db.Book = require("./book.js")(sequelize, Sequelize);
+db.authors = require("./author.js")(sequelize, Sequelize);
+db.books = require("./book.js")(sequelize, Sequelize);
+db.tags = require("./tag.js")(sequelize, Sequelize);
 
-Object.keys(db).forEach((modelName) => {
-  if (db.modelName.associate) {
-    db.modelName.associate(db);
-  }
+db.authors.hasMany(db.books, { foreignKey: "authorId", as: "books" });
+db.books.belongsTo(db.authors, {
+  foreignKey: "authorId",
+  as: "author",
+});
+
+db.tags.belongsToMany(db.books, {
+  through: "book_tag",
+  as: "books",
+  foriegnKey: "tagId",
+});
+
+db.books.belongsToMany(db.tags, {
+  through: "book_tag",
+  as: "tags",
+  foriegnKey: "bookId",
 });
 
 module.exports = db;

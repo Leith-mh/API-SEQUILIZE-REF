@@ -12,6 +12,7 @@ router
   .get("/:id", controller.getOne)
   .post("/", controller.createOne)
   .put("/:id", controller.updateOne)
-  .delete("/:id", controller.deleteOne);
+  .delete("/:id", controller.deleteOne)
+  .get("/author/:id", controller.getOneByAuthor);
 
 module.exports = router;

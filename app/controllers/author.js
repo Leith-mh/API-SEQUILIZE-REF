@@ -1,11 +1,11 @@
 const db = require("../models");
-const Author = db.Author;
+const Author = db.authors;
 
 exports.getAll = async (req, res) => {
   try {
     const books = await Author.findAll({
       include: {
-        model: db.Book,
+        model: db.books,
         as: "books",
         attributes: ["title"],
       },
@@ -20,7 +20,7 @@ exports.getOne = async (req, res) => {
   try {
     const book = await Author.findByPk(req.params.id, {
       include: {
-        model: db.Book,
+        model: db.books,
         as: "books",
         attributes: ["title"],
       },
